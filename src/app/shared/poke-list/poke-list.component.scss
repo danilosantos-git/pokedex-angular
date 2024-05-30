@@ -63,7 +63,10 @@ $padding: rem-calc(20);
       background: url('../../../assets/background/background-poke-list.svg') no-repeat;
 
       img {
-        width: rem-calc(80);
+        max-width: rem-calc(70);
+        max-height: rem-calc(70);
+        width: auto;
+        height: auto;
       }
     }
   }
