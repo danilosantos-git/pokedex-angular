@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { PokeApiService } from 'src/app/service/poke-api.service';
 
 @Component({
@@ -8,16 +8,40 @@ import { PokeApiService } from 'src/app/service/poke-api.service';
 })
 export class PokeListComponent implements OnInit {
 
-  public getAllPokemons: any;
+  public getAllPokemons: any[] = [];
 
   constructor(
     private pokeApiService: PokeApiService
   ) { }
 
   ngOnInit(): void {
-    this.pokeApiService.apiListAllPokemons.subscribe(
+    this.loadPokemons();
+  }
+
+  loadPokemons(): void {
+    const storedPokemons = this.pokeApiService.getStoredPokemons();
+    if (storedPokemons.length > 0) {
+      this.getAllPokemons = storedPokemons;
+    } else {
+      this.pokeApiService.resetAndLoadPokemons().subscribe(
+        res => {
+          this.getAllPokemons = this.getAllPokemons.concat(res.results);
+        }
+      );
+    }
+  }
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      this.loadMorePokemons();
+    }
+  }
+
+  loadMorePokemons(): void {
+    this.pokeApiService.loadMorePokemons().subscribe(
       res => {
-        this.getAllPokemons = res.results;
+        this.getAllPokemons = this.getAllPokemons.concat(res.results);
       }
     );
   }
