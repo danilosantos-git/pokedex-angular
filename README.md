@@ -128,4 +128,4 @@ Se você deseja contribuir com o projeto, sinta-se à vontade para abrir issues 
 
 ## Autor
 
-Este projeto foi iniciado por Danilo Santos.
+Projeto desenvolvido por [Danilo Santos](https://github.com/danilosantos-git). Obrigado por conferir!
